@@ -8,13 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		A96280F6299ACA57009B3772 /* StandupsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96280F5299ACA57009B3772 /* StandupsApp.swift */; };
-		A96280F8299ACA57009B3772 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96280F7299ACA57009B3772 /* ContentView.swift */; };
 		A96280FA299ACA57009B3772 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A96280F9299ACA57009B3772 /* Assets.xcassets */; };
 		A96280FE299ACA57009B3772 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A96280FD299ACA57009B3772 /* Preview Assets.xcassets */; };
 		A9628108299ACA57009B3772 /* StandupsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628107299ACA57009B3772 /* StandupsTests.swift */; };
 		A9628112299ACA57009B3772 /* StandupsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628111299ACA57009B3772 /* StandupsUITests.swift */; };
 		A9628114299ACA57009B3772 /* StandupsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628113299ACA57009B3772 /* StandupsUITestsLaunchTests.swift */; };
 		A962812F299AD624009B3772 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A962812E299AD624009B3772 /* README.md */; };
+		A9628123299ACC2F009B3772 /* StandupsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628122299ACC2F009B3772 /* StandupsList.swift */; };
+		A9628125299ACD1A009B3772 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628124299ACD1A009B3772 /* Models.swift */; };
+		A962812A299AD0B4009B3772 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = A9628129299AD0B4009B3772 /* .gitignore */; };
+		A962812D299AD2FE009B3772 /* Tagged in Frameworks */ = {isa = PBXBuildFile; productRef = A962812C299AD2FE009B3772 /* Tagged */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +40,6 @@
 /* Begin PBXFileReference section */
 		A96280F2299ACA57009B3772 /* Standups.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Standups.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A96280F5299ACA57009B3772 /* StandupsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupsApp.swift; sourceTree = "<group>"; };
-		A96280F7299ACA57009B3772 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A96280F9299ACA57009B3772 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A96280FB299ACA57009B3772 /* Standups.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Standups.entitlements; sourceTree = "<group>"; };
 		A96280FD299ACA57009B3772 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -47,6 +49,9 @@
 		A9628111299ACA57009B3772 /* StandupsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupsUITests.swift; sourceTree = "<group>"; };
 		A9628113299ACA57009B3772 /* StandupsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		A962812E299AD624009B3772 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A9628122299ACC2F009B3772 /* StandupsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupsList.swift; sourceTree = "<group>"; };
+		A9628124299ACD1A009B3772 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		A9628129299AD0B4009B3772 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A962812D299AD2FE009B3772 /* Tagged in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +83,7 @@
 		A96280E9299ACA56009B3772 = {
 			isa = PBXGroup;
 			children = (
+				A9628129299AD0B4009B3772 /* .gitignore */,
 				A962812E299AD624009B3772 /* README.md */,
 				A96280F4299ACA57009B3772 /* Standups */,
 				A9628106299ACA57009B3772 /* StandupsTests */,
@@ -99,10 +106,11 @@
 			isa = PBXGroup;
 			children = (
 				A96280F5299ACA57009B3772 /* StandupsApp.swift */,
-				A96280F7299ACA57009B3772 /* ContentView.swift */,
+				A9628122299ACC2F009B3772 /* StandupsList.swift */,
 				A96280F9299ACA57009B3772 /* Assets.xcassets */,
 				A96280FB299ACA57009B3772 /* Standups.entitlements */,
 				A96280FC299ACA57009B3772 /* Preview Content */,
+				A9628124299ACD1A009B3772 /* Models.swift */,
 			);
 			path = Standups;
 			sourceTree = "<group>";
@@ -148,6 +156,9 @@
 			dependencies = (
 			);
 			name = Standups;
+			packageProductDependencies = (
+				A962812C299AD2FE009B3772 /* Tagged */,
+			);
 			productName = Standups;
 			productReference = A96280F2299ACA57009B3772 /* Standups.app */;
 			productType = "com.apple.product-type.application";
@@ -220,6 +231,9 @@
 				Base,
 			);
 			mainGroup = A96280E9299ACA56009B3772;
+			packageReferences = (
+				A962812B299AD2FE009B3772 /* XCRemoteSwiftPackageReference "swift-tagged" */,
+			);
 			productRefGroup = A96280F3299ACA57009B3772 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -238,6 +252,7 @@
 			files = (
 				A962812F299AD624009B3772 /* README.md in Resources */,
 				A96280FE299ACA57009B3772 /* Preview Assets.xcassets in Resources */,
+				A962812A299AD0B4009B3772 /* .gitignore in Resources */,
 				A96280FA299ACA57009B3772 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -263,7 +278,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A96280F8299ACA57009B3772 /* ContentView.swift in Sources */,
+				A9628125299ACD1A009B3772 /* Models.swift in Sources */,
+				A9628123299ACC2F009B3772 /* StandupsList.swift in Sources */,
 				A96280F6299ACA57009B3772 /* StandupsApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -622,6 +638,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A962812B299AD2FE009B3772 /* XCRemoteSwiftPackageReference "swift-tagged" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-tagged";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A962812C299AD2FE009B3772 /* Tagged */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A962812B299AD2FE009B3772 /* XCRemoteSwiftPackageReference "swift-tagged" */;
+			productName = Tagged;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A96280EA299ACA56009B3772 /* Project object */;
 }

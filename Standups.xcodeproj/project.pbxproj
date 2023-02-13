@@ -14,6 +14,7 @@
 		A9628108299ACA57009B3772 /* StandupsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628107299ACA57009B3772 /* StandupsTests.swift */; };
 		A9628112299ACA57009B3772 /* StandupsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628111299ACA57009B3772 /* StandupsUITests.swift */; };
 		A9628114299ACA57009B3772 /* StandupsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628113299ACA57009B3772 /* StandupsUITestsLaunchTests.swift */; };
+		A962812F299AD624009B3772 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A962812E299AD624009B3772 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		A962810D299ACA57009B3772 /* StandupsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StandupsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9628111299ACA57009B3772 /* StandupsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupsUITests.swift; sourceTree = "<group>"; };
 		A9628113299ACA57009B3772 /* StandupsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A962812E299AD624009B3772 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 		A96280E9299ACA56009B3772 = {
 			isa = PBXGroup;
 			children = (
+				A962812E299AD624009B3772 /* README.md */,
 				A96280F4299ACA57009B3772 /* Standups */,
 				A9628106299ACA57009B3772 /* StandupsTests */,
 				A9628110299ACA57009B3772 /* StandupsUITests */,
@@ -233,6 +236,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A962812F299AD624009B3772 /* README.md in Resources */,
 				A96280FE299ACA57009B3772 /* Preview Assets.xcassets in Resources */,
 				A96280FA299ACA57009B3772 /* Assets.xcassets in Resources */,
 			);

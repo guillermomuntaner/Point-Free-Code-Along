@@ -13,11 +13,15 @@
 		A9628108299ACA57009B3772 /* StandupsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628107299ACA57009B3772 /* StandupsTests.swift */; };
 		A9628112299ACA57009B3772 /* StandupsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628111299ACA57009B3772 /* StandupsUITests.swift */; };
 		A9628114299ACA57009B3772 /* StandupsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628113299ACA57009B3772 /* StandupsUITestsLaunchTests.swift */; };
-		A962812F299AD624009B3772 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A962812E299AD624009B3772 /* README.md */; };
 		A9628123299ACC2F009B3772 /* StandupsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628122299ACC2F009B3772 /* StandupsList.swift */; };
 		A9628125299ACD1A009B3772 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628124299ACD1A009B3772 /* Models.swift */; };
 		A962812A299AD0B4009B3772 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = A9628129299AD0B4009B3772 /* .gitignore */; };
 		A962812D299AD2FE009B3772 /* Tagged in Frameworks */ = {isa = PBXBuildFile; productRef = A962812C299AD2FE009B3772 /* Tagged */; };
+		A962812F299AD624009B3772 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A962812E299AD624009B3772 /* README.md */; };
+		A9628132299CE795009B3772 /* SwiftUINavigation in Frameworks */ = {isa = PBXBuildFile; productRef = A9628131299CE795009B3772 /* SwiftUINavigation */; };
+		A9628134299CE8DA009B3772 /* EditStandupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628133299CE8DA009B3772 /* EditStandupView.swift */; };
+		A9628136299D7171009B3772 /* EditStandupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628135299D7171009B3772 /* EditStandupTests.swift */; };
+		A9628138299D7587009B3772 /* StandupDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628137299D7587009B3772 /* StandupDetail.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,10 +52,13 @@
 		A962810D299ACA57009B3772 /* StandupsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StandupsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9628111299ACA57009B3772 /* StandupsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupsUITests.swift; sourceTree = "<group>"; };
 		A9628113299ACA57009B3772 /* StandupsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupsUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		A962812E299AD624009B3772 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A9628122299ACC2F009B3772 /* StandupsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupsList.swift; sourceTree = "<group>"; };
 		A9628124299ACD1A009B3772 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		A9628129299AD0B4009B3772 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		A962812E299AD624009B3772 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A9628133299CE8DA009B3772 /* EditStandupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStandupView.swift; sourceTree = "<group>"; };
+		A9628135299D7171009B3772 /* EditStandupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStandupTests.swift; sourceTree = "<group>"; };
+		A9628137299D7587009B3772 /* StandupDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupDetail.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9628132299CE795009B3772 /* SwiftUINavigation in Frameworks */,
 				A962812D299AD2FE009B3772 /* Tagged in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -107,10 +115,12 @@
 			children = (
 				A96280F5299ACA57009B3772 /* StandupsApp.swift */,
 				A9628122299ACC2F009B3772 /* StandupsList.swift */,
+				A9628133299CE8DA009B3772 /* EditStandupView.swift */,
 				A96280F9299ACA57009B3772 /* Assets.xcassets */,
 				A96280FB299ACA57009B3772 /* Standups.entitlements */,
 				A96280FC299ACA57009B3772 /* Preview Content */,
 				A9628124299ACD1A009B3772 /* Models.swift */,
+				A9628137299D7587009B3772 /* StandupDetail.swift */,
 			);
 			path = Standups;
 			sourceTree = "<group>";
@@ -127,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				A9628107299ACA57009B3772 /* StandupsTests.swift */,
+				A9628135299D7171009B3772 /* EditStandupTests.swift */,
 			);
 			path = StandupsTests;
 			sourceTree = "<group>";
@@ -158,6 +169,7 @@
 			name = Standups;
 			packageProductDependencies = (
 				A962812C299AD2FE009B3772 /* Tagged */,
+				A9628131299CE795009B3772 /* SwiftUINavigation */,
 			);
 			productName = Standups;
 			productReference = A96280F2299ACA57009B3772 /* Standups.app */;
@@ -233,6 +245,7 @@
 			mainGroup = A96280E9299ACA56009B3772;
 			packageReferences = (
 				A962812B299AD2FE009B3772 /* XCRemoteSwiftPackageReference "swift-tagged" */,
+				A9628130299CE795009B3772 /* XCRemoteSwiftPackageReference "swiftui-navigation" */,
 			);
 			productRefGroup = A96280F3299ACA57009B3772 /* Products */;
 			projectDirPath = "";
@@ -278,9 +291,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9628134299CE8DA009B3772 /* EditStandupView.swift in Sources */,
 				A9628125299ACD1A009B3772 /* Models.swift in Sources */,
 				A9628123299ACC2F009B3772 /* StandupsList.swift in Sources */,
 				A96280F6299ACA57009B3772 /* StandupsApp.swift in Sources */,
+				A9628138299D7587009B3772 /* StandupDetail.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +304,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9628108299ACA57009B3772 /* StandupsTests.swift in Sources */,
+				A9628136299D7171009B3772 /* EditStandupTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -648,6 +664,14 @@
 				minimumVersion = 0.9.0;
 			};
 		};
+		A9628130299CE795009B3772 /* XCRemoteSwiftPackageReference "swiftui-navigation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swiftui-navigation";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -655,6 +679,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A962812B299AD2FE009B3772 /* XCRemoteSwiftPackageReference "swift-tagged" */;
 			productName = Tagged;
+		};
+		A9628131299CE795009B3772 /* SwiftUINavigation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A9628130299CE795009B3772 /* XCRemoteSwiftPackageReference "swiftui-navigation" */;
+			productName = SwiftUINavigation;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

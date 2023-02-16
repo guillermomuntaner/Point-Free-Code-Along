@@ -23,6 +23,7 @@ class RecordMeetingModel: ObservableObject {
     private var transcript = ""
 
     @Dependency(\.continuousClock) var clock
+    @Dependency(\.speechClient) var speechClient
 
     enum Destination {
         case alert(AlertState<AlertAction>)
@@ -121,8 +122,9 @@ class RecordMeetingModel: ObservableObject {
     @MainActor
     func task() async {
         do {
+            let authorization = await self.speechClient.requestAuthorization()
             try await withThrowingTaskGroup(of: Void.self) { group in
-                if await self.requestAuthorization() == .authorized {
+                if authorization == .authorized {
                     group.addTask {
                         try await self.startSpeechRecognition()
                     }
@@ -133,16 +135,13 @@ class RecordMeetingModel: ObservableObject {
                 try await group.waitForAll()
             }
         } catch {
-            self.destination = .alert(
-                AlertState(title: TextState("Something went wrong."))
-            )
+            self.destination = .alert(AlertState(title: TextState("Something went wrong.")))
         }
     }
 
     private func startSpeechRecognition() async throws {
-        let speech = Speech()
         let request = SFSpeechAudioBufferRecognitionRequest()
-        for try await result in await speech.startTask(request: request) {
+        for try await result in await self.speechClient.startTask(request) {
             self.transcript = result.bestTranscription.formattedString
         }
     }
@@ -161,14 +160,6 @@ class RecordMeetingModel: ObservableObject {
                 self.speakerIndex += 1
             }
 
-        }
-    }
-
-    func requestAuthorization() async -> SFSpeechRecognizerAuthorizationStatus {
-        await withUnsafeContinuation { continuation in
-            SFSpeechRecognizer.requestAuthorization { status in
-                continuation.resume(returning: status)
-            }
         }
     }
 }

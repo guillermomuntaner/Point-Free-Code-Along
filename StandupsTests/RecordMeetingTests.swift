@@ -15,6 +15,7 @@ class RecordMeetingTests: XCTestCase {
   func testTimer() async {
     await withDependencies {
         $0.continuousClock = ImmediateClock()
+        $0.speechClient.requestAuthorization = { .denied }
     } operation: { @MainActor in
         var standup = Standup.mock
         standup.duration = .seconds(6)

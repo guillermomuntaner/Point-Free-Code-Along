@@ -21,6 +21,7 @@ final class StandupsListModel: ObservableObject {
     private var destinationCancellable: AnyCancellable?
     private var cancellables: Set<AnyCancellable> = []
 
+    @Dependency(\.dataManager) var dataManager
     @Dependency(\.mainQueue) var mainQueue
 
     enum Destination {
@@ -37,7 +38,7 @@ final class StandupsListModel: ObservableObject {
         do {
             self.standups = try JSONDecoder().decode(
                 IdentifiedArray.self,
-                from: Data(contentsOf: .standups)
+                from: dataManager.load(.standups)
             )
         } catch {
             // TODO: Alert
@@ -50,7 +51,10 @@ final class StandupsListModel: ObservableObject {
             )
             .sink { standups in
                 do {
-                    try JSONEncoder().encode(standups).write(to: .standups)
+                    try self.dataManager.save(
+                        JSONEncoder().encode(standups),
+                        .standups
+                    )
                 } catch {
                     // TODO: Alert
                 }

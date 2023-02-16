@@ -10,7 +10,9 @@ import SwiftUINavigation
 import XCTestDynamicOverlay
 
 class StandupDetailModel: ObservableObject {
-    @Published var destination: Destination?
+    @Published var destination: Destination? {
+        didSet { self.bind() }
+    }
     @Published var standup: Standup
 
     var onConfirmDeletion: () -> Void = unimplemented("StandupDetailModel.onConfirmDeletion")
@@ -19,6 +21,7 @@ class StandupDetailModel: ObservableObject {
         case alert(AlertState<AlertAction>)
         case edit(EditStandupModel )
         case meeting(Meeting)
+        case record(RecordMeetingModel)
     }
 
     enum AlertAction {
@@ -31,6 +34,7 @@ class StandupDetailModel: ObservableObject {
     ) {
         self.destination = destination
         self.standup = standup
+        self.bind()
     }
 
     func deleteMeetings(atOffsets indices: IndexSet) {
@@ -67,6 +71,26 @@ class StandupDetailModel: ObservableObject {
         self.standup = model.standup
         self.destination = nil 
     }
+
+    func startMeetingTapped() {
+        self.destination = .record(RecordMeetingModel(standup: standup))
+    }
+
+    private func bind() {
+        switch destination {
+        case let .record(recordMeetingModel):
+            recordMeetingModel.onMeetingFinished = { [weak self] in
+                guard let self else { return }
+
+                // TODO: Transcribe & save
+                
+                self.destination = nil
+            }
+
+        case .edit, .alert, .meeting, .none:
+            break
+        }
+    }
 }
 
 extension AlertState where Action == StandupDetailModel.AlertAction {
@@ -87,6 +111,7 @@ struct StandupDetailView: View {
         List {
             Section {
                 Button {
+                    self.model.startMeetingTapped()
                 } label: {
                     Label("Start Meeting", systemImage: "timer")
                         .font(.headline)
@@ -190,6 +215,12 @@ struct StandupDetailView: View {
                         }
                     }
             }
+        }
+        .navigationDestination(
+          unwrapping: self.$model.destination,
+          case: /StandupDetailModel.Destination.record
+        ) { $recordMeetingModel in
+          RecordMeetingView(model: recordMeetingModel)
         }
     }
 }

@@ -22,6 +22,8 @@
 		A9628134299CE8DA009B3772 /* EditStandupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628133299CE8DA009B3772 /* EditStandupView.swift */; };
 		A9628136299D7171009B3772 /* EditStandupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628135299D7171009B3772 /* EditStandupTests.swift */; };
 		A9628138299D7587009B3772 /* StandupDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628137299D7587009B3772 /* StandupDetail.swift */; };
+		A962813B299E8B7B009B3772 /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = A962813A299E8B7B009B3772 /* IdentifiedCollections */; };
+		A962813D299E8CAC009B3772 /* RecordMeeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A962813C299E8CAC009B3772 /* RecordMeeting.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,7 @@
 		A9628133299CE8DA009B3772 /* EditStandupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStandupView.swift; sourceTree = "<group>"; };
 		A9628135299D7171009B3772 /* EditStandupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStandupTests.swift; sourceTree = "<group>"; };
 		A9628137299D7587009B3772 /* StandupDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupDetail.swift; sourceTree = "<group>"; };
+		A962813C299E8CAC009B3772 /* RecordMeeting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordMeeting.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A962813B299E8B7B009B3772 /* IdentifiedCollections in Frameworks */,
 				A9628132299CE795009B3772 /* SwiftUINavigation in Frameworks */,
 				A962812D299AD2FE009B3772 /* Tagged in Frameworks */,
 			);
@@ -121,6 +125,7 @@
 				A96280FC299ACA57009B3772 /* Preview Content */,
 				A9628124299ACD1A009B3772 /* Models.swift */,
 				A9628137299D7587009B3772 /* StandupDetail.swift */,
+				A962813C299E8CAC009B3772 /* RecordMeeting.swift */,
 			);
 			path = Standups;
 			sourceTree = "<group>";
@@ -170,6 +175,7 @@
 			packageProductDependencies = (
 				A962812C299AD2FE009B3772 /* Tagged */,
 				A9628131299CE795009B3772 /* SwiftUINavigation */,
+				A962813A299E8B7B009B3772 /* IdentifiedCollections */,
 			);
 			productName = Standups;
 			productReference = A96280F2299ACA57009B3772 /* Standups.app */;
@@ -246,6 +252,7 @@
 			packageReferences = (
 				A962812B299AD2FE009B3772 /* XCRemoteSwiftPackageReference "swift-tagged" */,
 				A9628130299CE795009B3772 /* XCRemoteSwiftPackageReference "swiftui-navigation" */,
+				A9628139299E8B7B009B3772 /* XCRemoteSwiftPackageReference "swift-identified-collections" */,
 			);
 			productRefGroup = A96280F3299ACA57009B3772 /* Products */;
 			projectDirPath = "";
@@ -295,6 +302,7 @@
 				A9628125299ACD1A009B3772 /* Models.swift in Sources */,
 				A9628123299ACC2F009B3772 /* StandupsList.swift in Sources */,
 				A96280F6299ACA57009B3772 /* StandupsApp.swift in Sources */,
+				A962813D299E8CAC009B3772 /* RecordMeeting.swift in Sources */,
 				A9628138299D7587009B3772 /* StandupDetail.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -672,6 +680,14 @@
 				minimumVersion = 0.6.1;
 			};
 		};
+		A9628139299E8B7B009B3772 /* XCRemoteSwiftPackageReference "swift-identified-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-identified-collections";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.7.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -684,6 +700,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A9628130299CE795009B3772 /* XCRemoteSwiftPackageReference "swiftui-navigation" */;
 			productName = SwiftUINavigation;
+		};
+		A962813A299E8B7B009B3772 /* IdentifiedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A9628139299E8B7B009B3772 /* XCRemoteSwiftPackageReference "swift-identified-collections" */;
+			productName = IdentifiedCollections;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

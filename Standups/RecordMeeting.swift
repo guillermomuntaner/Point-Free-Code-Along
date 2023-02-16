@@ -8,6 +8,8 @@
 import SwiftUI
 import XCTestDynamicOverlay
 import SwiftUINavigation
+import Clocks
+import Dependencies
 @preconcurrency import Speech
 
 @MainActor
@@ -18,8 +20,9 @@ class RecordMeetingModel: ObservableObject {
     @Published var dismiss = false
     @Published var secondsElapsed = 0
     @Published var speakerIndex = 0
-
     private var transcript = ""
+
+    @Dependency(\.continuousClock) var clock
 
     enum Destination {
         case alert(AlertState<AlertAction>)
@@ -36,7 +39,10 @@ class RecordMeetingModel: ObservableObject {
         self.standup.duration - .seconds(self.secondsElapsed)
     }
 
-    init(destination: Destination? = nil, standup: Standup) {
+    init(
+        destination: Destination? = nil,
+        standup: Standup
+    ) {
         self.destination = destination
         self.standup = standup
     }
@@ -114,11 +120,9 @@ class RecordMeetingModel: ObservableObject {
 
     @MainActor
     func task() async {
-        let authorizationStatus = await self.requestAuthorization()
-
         do {
             try await withThrowingTaskGroup(of: Void.self) { group in
-                if authorizationStatus == .authorized {
+                if await self.requestAuthorization() == .authorized {
                     group.addTask {
                         try await self.startSpeechRecognition()
                     }
@@ -130,7 +134,7 @@ class RecordMeetingModel: ObservableObject {
             }
         } catch {
             self.destination = .alert(
-              AlertState(title: TextState("Something went wrong."))
+                AlertState(title: TextState("Something went wrong."))
             )
         }
     }
@@ -144,17 +148,11 @@ class RecordMeetingModel: ObservableObject {
     }
 
     private func startTimer() async throws {
-        while true {
-            try await Task.sleep(for: .seconds(1))
-            guard !self.isAlertOpen else { return }
+        for await _ in self.clock.timer(interval: .seconds(1)) where !self.isAlertOpen {
 
             self.secondsElapsed += 1
 
-            if self.secondsElapsed.isMultiple(
-                of: Int(
-                    self.standup.durationPerAttendee.components.seconds
-                )
-            ) {
+            if self.secondsElapsed.isMultiple(of: Int(self.standup.durationPerAttendee.components.seconds)) {
                 if self.speakerIndex == self.standup.attendees.count - 1 {
                     self.onMeetingFinished(self.transcript)
                     self.dismiss = true
@@ -162,6 +160,7 @@ class RecordMeetingModel: ObservableObject {
                 }
                 self.speakerIndex += 1
             }
+
         }
     }
 

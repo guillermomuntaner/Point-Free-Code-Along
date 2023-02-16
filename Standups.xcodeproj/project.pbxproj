@@ -25,6 +25,10 @@
 		A962813B299E8B7B009B3772 /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = A962813A299E8B7B009B3772 /* IdentifiedCollections */; };
 		A962813D299E8CAC009B3772 /* RecordMeeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A962813C299E8CAC009B3772 /* RecordMeeting.swift */; };
 		A962813F299EAD6B009B3772 /* Speech.swift in Sources */ = {isa = PBXBuildFile; fileRef = A962813E299EAD6B009B3772 /* Speech.swift */; };
+		A9628144299EB6D6009B3772 /* RecordMeetingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628142299EB5F7009B3772 /* RecordMeetingTests.swift */; };
+		A9628145299EB6D6009B3772 /* StandupsListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628140299EB4E0009B3772 /* StandupsListTests.swift */; };
+		A9628148299EB9E6009B3772 /* Clocks in Frameworks */ = {isa = PBXBuildFile; productRef = A9628147299EB9E6009B3772 /* Clocks */; };
+		A962814B299EBC79009B3772 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = A962814A299EBC79009B3772 /* Dependencies */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +68,8 @@
 		A9628137299D7587009B3772 /* StandupDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupDetail.swift; sourceTree = "<group>"; };
 		A962813C299E8CAC009B3772 /* RecordMeeting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordMeeting.swift; sourceTree = "<group>"; };
 		A962813E299EAD6B009B3772 /* Speech.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speech.swift; sourceTree = "<group>"; };
+		A9628140299EB4E0009B3772 /* StandupsListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupsListTests.swift; sourceTree = "<group>"; };
+		A9628142299EB5F7009B3772 /* RecordMeetingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordMeetingTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +77,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A962814B299EBC79009B3772 /* Dependencies in Frameworks */,
 				A962813B299E8B7B009B3772 /* IdentifiedCollections in Frameworks */,
+				A9628148299EB9E6009B3772 /* Clocks in Frameworks */,
 				A9628132299CE795009B3772 /* SwiftUINavigation in Frameworks */,
 				A962812D299AD2FE009B3772 /* Tagged in Frameworks */,
 			);
@@ -146,6 +154,8 @@
 			children = (
 				A9628107299ACA57009B3772 /* StandupsTests.swift */,
 				A9628135299D7171009B3772 /* EditStandupTests.swift */,
+				A9628140299EB4E0009B3772 /* StandupsListTests.swift */,
+				A9628142299EB5F7009B3772 /* RecordMeetingTests.swift */,
 			);
 			path = StandupsTests;
 			sourceTree = "<group>";
@@ -179,6 +189,8 @@
 				A962812C299AD2FE009B3772 /* Tagged */,
 				A9628131299CE795009B3772 /* SwiftUINavigation */,
 				A962813A299E8B7B009B3772 /* IdentifiedCollections */,
+				A9628147299EB9E6009B3772 /* Clocks */,
+				A962814A299EBC79009B3772 /* Dependencies */,
 			);
 			productName = Standups;
 			productReference = A96280F2299ACA57009B3772 /* Standups.app */;
@@ -256,6 +268,8 @@
 				A962812B299AD2FE009B3772 /* XCRemoteSwiftPackageReference "swift-tagged" */,
 				A9628130299CE795009B3772 /* XCRemoteSwiftPackageReference "swiftui-navigation" */,
 				A9628139299E8B7B009B3772 /* XCRemoteSwiftPackageReference "swift-identified-collections" */,
+				A9628146299EB9E6009B3772 /* XCRemoteSwiftPackageReference "swift-clocks" */,
+				A9628149299EBC79009B3772 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
 			);
 			productRefGroup = A96280F3299ACA57009B3772 /* Products */;
 			projectDirPath = "";
@@ -315,8 +329,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9628144299EB6D6009B3772 /* RecordMeetingTests.swift in Sources */,
 				A9628108299ACA57009B3772 /* StandupsTests.swift in Sources */,
 				A9628136299D7171009B3772 /* EditStandupTests.swift in Sources */,
+				A9628145299EB6D6009B3772 /* StandupsListTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -694,6 +710,22 @@
 				minimumVersion = 0.7.0;
 			};
 		};
+		A9628146299EB9E6009B3772 /* XCRemoteSwiftPackageReference "swift-clocks" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-clocks";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
+		A9628149299EBC79009B3772 /* XCRemoteSwiftPackageReference "swift-dependencies" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-dependencies";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -711,6 +743,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A9628139299E8B7B009B3772 /* XCRemoteSwiftPackageReference "swift-identified-collections" */;
 			productName = IdentifiedCollections;
+		};
+		A9628147299EB9E6009B3772 /* Clocks */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A9628146299EB9E6009B3772 /* XCRemoteSwiftPackageReference "swift-clocks" */;
+			productName = Clocks;
+		};
+		A962814A299EBC79009B3772 /* Dependencies */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A9628149299EBC79009B3772 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
+			productName = Dependencies;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

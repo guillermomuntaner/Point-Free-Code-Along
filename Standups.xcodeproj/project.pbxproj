@@ -24,6 +24,7 @@
 		A9628138299D7587009B3772 /* StandupDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628137299D7587009B3772 /* StandupDetail.swift */; };
 		A962813B299E8B7B009B3772 /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = A962813A299E8B7B009B3772 /* IdentifiedCollections */; };
 		A962813D299E8CAC009B3772 /* RecordMeeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A962813C299E8CAC009B3772 /* RecordMeeting.swift */; };
+		A962813F299EAD6B009B3772 /* Speech.swift in Sources */ = {isa = PBXBuildFile; fileRef = A962813E299EAD6B009B3772 /* Speech.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		A9628135299D7171009B3772 /* EditStandupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStandupTests.swift; sourceTree = "<group>"; };
 		A9628137299D7587009B3772 /* StandupDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupDetail.swift; sourceTree = "<group>"; };
 		A962813C299E8CAC009B3772 /* RecordMeeting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordMeeting.swift; sourceTree = "<group>"; };
+		A962813E299EAD6B009B3772 /* Speech.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speech.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 				A9628124299ACD1A009B3772 /* Models.swift */,
 				A9628137299D7587009B3772 /* StandupDetail.swift */,
 				A962813C299E8CAC009B3772 /* RecordMeeting.swift */,
+				A962813E299EAD6B009B3772 /* Speech.swift */,
 			);
 			path = Standups;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 				A9628134299CE8DA009B3772 /* EditStandupView.swift in Sources */,
 				A9628125299ACD1A009B3772 /* Models.swift in Sources */,
 				A9628123299ACC2F009B3772 /* StandupsList.swift in Sources */,
+				A962813F299EAD6B009B3772 /* Speech.swift in Sources */,
 				A96280F6299ACA57009B3772 /* StandupsApp.swift in Sources */,
 				A962813D299E8CAC009B3772 /* RecordMeeting.swift in Sources */,
 				A9628138299D7587009B3772 /* StandupDetail.swift in Sources */,
@@ -468,6 +472,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "We need access to the microphone to transcribe your meetings.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -506,6 +511,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "We need access to the microphone to transcribe your meetings.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

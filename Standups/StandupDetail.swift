@@ -8,6 +8,8 @@
 import SwiftUI
 import SwiftUINavigation
 import XCTestDynamicOverlay
+import Clocks
+import Dependencies
 
 @MainActor
 class StandupDetailModel: ObservableObject {
@@ -15,6 +17,8 @@ class StandupDetailModel: ObservableObject {
         didSet { self.bind() }
     }
     @Published var standup: Standup
+
+    @Dependency(\.continuousClock) var clock
 
     var onConfirmDeletion: () -> Void = unimplemented("StandupDetailModel.onConfirmDeletion")
 
@@ -84,7 +88,7 @@ class StandupDetailModel: ObservableObject {
                 guard let self else { return }
 
                 Task {
-                    try? await Task.sleep(for: .microseconds(400))
+                    try? await self.clock.sleep(for: .milliseconds(400))
                     withAnimation {
                         _ = self.standup.meetings.insert(
                             Meeting(

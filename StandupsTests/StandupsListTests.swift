@@ -7,23 +7,16 @@
 
 import XCTest
 import Dependencies
+import CustomDump
 
 @testable import Standups
 
 @MainActor
 class StandupsListTests: XCTestCase {
-    override func setUp() {
-        super.setUp()
-        try? FileManager.default.removeItem(
-            at: .documentsDirectory.appending(
-                component: "standups.json"
-            )
-        )
-    }
-
     func testPersistence() async throws {
         let mainQueue = DispatchQueue.test
         withDependencies {
+            $0.dataManager = .fake()
             $0.mainQueue = mainQueue.eraseToAnyScheduler()
         } operation: {
             let listModel = StandupsListModel()
@@ -39,6 +32,48 @@ class StandupsListTests: XCTestCase {
             XCTAssertEqual(
                 nextLaunchListModel.standups.count, 1
             )
+        }
+    }
+
+    func testEdit() throws {
+        let mainQueue = DispatchQueue.test
+        try withDependencies {
+            $0.dataManager = .fake(
+                initialData: try JSONEncoder().encode([Standup.mock])
+            )
+            $0.mainQueue = mainQueue.eraseToAnyScheduler()
+        } operation: {
+            let listModel = StandupsListModel()
+            XCTAssertEqual(listModel.standups.count, 1)
+
+            listModel.standupTapped(standup: listModel.standups[0])
+            guard
+              case let .some(.detail(detailModel))
+                = listModel.destination
+            else {
+              XCTFail()
+              return
+            }
+            XCTAssertNoDifference(
+              detailModel.standup, listModel.standups[0]
+            )
+
+            detailModel.editButtonTapped()
+            guard case let .some(.edit(editModel)) = detailModel.destination else {
+                XCTFail()
+                return
+            }
+            XCTAssertEqual(editModel.standup, detailModel.standup)
+
+            editModel.standup.title = "Product"
+            detailModel.doneEditingButtonTapped()
+
+            XCTAssertNil(detailModel.destination)
+            XCTAssertEqual(detailModel.standup.title, "Product")
+
+            listModel.destination = nil
+
+            XCTAssertEqual(listModel.standups[0].title, "Product")
         }
     }
 }

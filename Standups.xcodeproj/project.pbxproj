@@ -24,11 +24,12 @@
 		A9628138299D7587009B3772 /* StandupDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628137299D7587009B3772 /* StandupDetail.swift */; };
 		A962813B299E8B7B009B3772 /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = A962813A299E8B7B009B3772 /* IdentifiedCollections */; };
 		A962813D299E8CAC009B3772 /* RecordMeeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A962813C299E8CAC009B3772 /* RecordMeeting.swift */; };
-		A962813F299EAD6B009B3772 /* Speech.swift in Sources */ = {isa = PBXBuildFile; fileRef = A962813E299EAD6B009B3772 /* Speech.swift */; };
 		A9628144299EB6D6009B3772 /* RecordMeetingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628142299EB5F7009B3772 /* RecordMeetingTests.swift */; };
 		A9628145299EB6D6009B3772 /* StandupsListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9628140299EB4E0009B3772 /* StandupsListTests.swift */; };
 		A9628148299EB9E6009B3772 /* Clocks in Frameworks */ = {isa = PBXBuildFile; productRef = A9628147299EB9E6009B3772 /* Clocks */; };
 		A962814B299EBC79009B3772 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = A962814A299EBC79009B3772 /* Dependencies */; };
+		A962814D299EC4A3009B3772 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A962814C299EC4A3009B3772 /* DataManager.swift */; };
+		A962814F299EC819009B3772 /* SpeechClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A962814E299EC819009B3772 /* SpeechClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,9 +68,10 @@
 		A9628135299D7171009B3772 /* EditStandupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStandupTests.swift; sourceTree = "<group>"; };
 		A9628137299D7587009B3772 /* StandupDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupDetail.swift; sourceTree = "<group>"; };
 		A962813C299E8CAC009B3772 /* RecordMeeting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordMeeting.swift; sourceTree = "<group>"; };
-		A962813E299EAD6B009B3772 /* Speech.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speech.swift; sourceTree = "<group>"; };
 		A9628140299EB4E0009B3772 /* StandupsListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupsListTests.swift; sourceTree = "<group>"; };
 		A9628142299EB5F7009B3772 /* RecordMeetingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordMeetingTests.swift; sourceTree = "<group>"; };
+		A962814C299EC4A3009B3772 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		A962814E299EC819009B3772 /* SpeechClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,7 +138,8 @@
 				A9628124299ACD1A009B3772 /* Models.swift */,
 				A9628137299D7587009B3772 /* StandupDetail.swift */,
 				A962813C299E8CAC009B3772 /* RecordMeeting.swift */,
-				A962813E299EAD6B009B3772 /* Speech.swift */,
+				A962814C299EC4A3009B3772 /* DataManager.swift */,
+				A962814E299EC819009B3772 /* SpeechClient.swift */,
 			);
 			path = Standups;
 			sourceTree = "<group>";
@@ -316,9 +319,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9628134299CE8DA009B3772 /* EditStandupView.swift in Sources */,
+				A962814D299EC4A3009B3772 /* DataManager.swift in Sources */,
 				A9628125299ACD1A009B3772 /* Models.swift in Sources */,
 				A9628123299ACC2F009B3772 /* StandupsList.swift in Sources */,
-				A962813F299EAD6B009B3772 /* Speech.swift in Sources */,
+				A962814F299EC819009B3772 /* SpeechClient.swift in Sources */,
 				A96280F6299ACA57009B3772 /* StandupsApp.swift in Sources */,
 				A962813D299E8CAC009B3772 /* RecordMeeting.swift in Sources */,
 				A9628138299D7587009B3772 /* StandupDetail.swift in Sources */,

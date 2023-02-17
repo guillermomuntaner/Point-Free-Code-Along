@@ -192,7 +192,9 @@ struct RecordMeetingView: View {
         }
         .padding()
         .foregroundColor(self.model.standup.theme.accentColor)
+        #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("End meeting") {

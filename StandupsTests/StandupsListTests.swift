@@ -20,21 +20,21 @@ class StandupsListTests: XCTestCase {
             $0.mainQueue = mainQueue.eraseToAnyScheduler()
         } operation: {
             let listModel = StandupsListModel()
-
+            
             XCTAssertEqual(listModel.standups.count, 0)
             listModel.addStandupButtonTapped()
             listModel.confirmAddStandupButtonTapped()
             XCTAssertEqual(listModel.standups.count, 1)
-
+            
             mainQueue.run()
-
+            
             let nextLaunchListModel = StandupsListModel()
             XCTAssertEqual(
                 nextLaunchListModel.standups.count, 1
             )
         }
     }
-
+    
     func testEdit() throws {
         let mainQueue = DispatchQueue.test
         try withDependencies {
@@ -45,34 +45,34 @@ class StandupsListTests: XCTestCase {
         } operation: {
             let listModel = StandupsListModel()
             XCTAssertEqual(listModel.standups.count, 1)
-
+            
             listModel.standupTapped(standup: listModel.standups[0])
             guard
-              case let .some(.detail(detailModel))
-                = listModel.destination
+                case let .some(.detail(detailModel))
+                    = listModel.destination
             else {
-              XCTFail()
-              return
+                XCTFail()
+                return
             }
             XCTAssertNoDifference(
-              detailModel.standup, listModel.standups[0]
+                detailModel.standup, listModel.standups[0]
             )
-
+            
             detailModel.editButtonTapped()
             guard case let .some(.edit(editModel)) = detailModel.destination else {
                 XCTFail()
                 return
             }
             XCTAssertEqual(editModel.standup, detailModel.standup)
-
+            
             editModel.standup.title = "Product"
             detailModel.doneEditingButtonTapped()
-
+            
             XCTAssertNil(detailModel.destination)
             XCTAssertEqual(detailModel.standup.title, "Product")
-
+            
             listModel.destination = nil
-
+            
             XCTAssertEqual(listModel.standups[0].title, "Product")
         }
     }

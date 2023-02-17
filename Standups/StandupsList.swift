@@ -17,24 +17,24 @@ final class StandupsListModel: ObservableObject {
         didSet { self.bind() }
     }
     @Published var standups: IdentifiedArrayOf<Standup>
-
+    
     private var destinationCancellable: AnyCancellable?
     private var cancellables: Set<AnyCancellable> = []
-
+    
     @Dependency(\.dataManager) var dataManager
     @Dependency(\.mainQueue) var mainQueue
-
+    
     enum Destination {
         case add(EditStandupModel)
         case detail(StandupDetailModel)
     }
-
+    
     init(
         destination: Destination? = nil
     ) {
         self.destination = destination
         self.standups = []
-
+        
         do {
             self.standups = try JSONDecoder().decode(
                 IdentifiedArray.self,
@@ -43,7 +43,7 @@ final class StandupsListModel: ObservableObject {
         } catch {
             // TODO: Alert
         }
-
+        
         self.$standups
             .dropFirst()
             .debounce(
@@ -60,26 +60,26 @@ final class StandupsListModel: ObservableObject {
                 }
             }
             .store(in: &self.cancellables)
-
+        
         self.bind()
     }
-
+    
     func addStandupButtonTapped() {
         self.destination = .add(EditStandupModel(standup: Standup(id: Standup.ID(UUID()))))
     }
-
+    
     func dismissAddStandupButtonTap() {
         self.destination = nil
     }
-
+    
     func confirmAddStandupButtonTapped() {
         defer { self.destination = nil }
-
+        
         guard case let .add(editStandupModel) = self.destination
         else { return }
-
+        
         var standup = editStandupModel.standup
-
+        
         standup.attendees.removeAll { attendee in
             attendee.name.allSatisfy(\.isWhitespace)
         }
@@ -88,32 +88,32 @@ final class StandupsListModel: ObservableObject {
         }
         self.standups.append(standup)
     }
-
+    
     func standupTapped(standup: Standup) {
         self.destination = .detail(
             StandupDetailModel(standup: standup)
         )
     }
-
+    
     private func bind() {
         switch self.destination {
         case let .detail(standupDetailModel):
             standupDetailModel.onConfirmDeletion = { [weak self, id = standupDetailModel.standup.id] in
                 guard let self else { return }
-
+                
                 withAnimation {
                     self.standups.remove(id: id)
                     self.destination = nil
                 }
             }
-
+            
             self.destinationCancellable = standupDetailModel.$standup
                 .sink { [weak self] standup in
                     guard let self else { return }
-
+                    
                     self.standups[id: standup.id] = standup
                 }
-
+            
         case .add, .none:
             break
         }
@@ -122,7 +122,7 @@ final class StandupsListModel: ObservableObject {
 
 struct StandupsList: View {
     @ObservedObject var model: StandupsListModel
-
+    
     var body: some View {
         NavigationStack {
             List {
@@ -176,7 +176,7 @@ struct StandupsList: View {
 
 struct CardView: View {
     let standup: Standup
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text(self.standup.title)

@@ -17,22 +17,22 @@ class StandupDetailModel: ObservableObject {
         didSet { self.bind() }
     }
     @Published var standup: Standup
-
+    
     @Dependency(\.continuousClock) var clock
-
+    
     var onConfirmDeletion: () -> Void = unimplemented("StandupDetailModel.onConfirmDeletion")
-
+    
     enum Destination {
         case alert(AlertState<AlertAction>)
         case edit(EditStandupModel )
         case meeting(Meeting)
         case record(RecordMeetingModel)
     }
-
+    
     enum AlertAction {
         case confirmDelition
     }
-
+    
     init(
         destination: Destination? = nil,
         standup: Standup
@@ -41,52 +41,52 @@ class StandupDetailModel: ObservableObject {
         self.standup = standup
         self.bind()
     }
-
+    
     func deleteMeetings(atOffsets indices: IndexSet) {
         self.standup.meetings.remove(atOffsets: indices)
     }
-
+    
     func meetingTapping(_ meeting: Meeting) {
         self.destination = .meeting(meeting)
     }
-
+    
     func deleteButtonTapped() {
         self.destination = .alert(AlertState.delete)
     }
-
+    
     func alertButtonTapped(_ action: AlertAction) {
         switch action {
         case .confirmDelition:
             self.onConfirmDeletion()
         }
     }
-
+    
     func editButtonTapped() {
         self.destination = .edit(EditStandupModel(standup: self.standup ))
     }
-
+    
     func cancelEditButtonTapped() {
         self.destination = nil
     }
-
+    
     func doneEditingButtonTapped() {
         guard case let .edit(model) = self.destination
         else { return }
-
+        
         self.standup = model.standup
         self.destination = nil 
     }
-
+    
     func startMeetingTapped() {
         self.destination = .record(RecordMeetingModel(standup: standup))
     }
-
+    
     private func bind() {
         switch destination {
         case let .record(recordMeetingModel):
             recordMeetingModel.onMeetingFinished = { [weak self] transcript in
                 guard let self else { return }
-
+                
                 Task {
                     try? await self.clock.sleep(for: .milliseconds(400))
                     withAnimation {
@@ -102,7 +102,7 @@ class StandupDetailModel: ObservableObject {
                 }
                 self.destination = nil
             }
-
+            
         case .edit, .alert, .meeting, .none:
             break
         }
@@ -122,7 +122,7 @@ extension AlertState where Action == StandupDetailModel.AlertAction {
 
 struct StandupDetailView: View {
     @ObservedObject var model: StandupDetailModel
-
+    
     var body: some View {
         List {
             Section {
@@ -140,7 +140,7 @@ struct StandupDetailView: View {
                         .units())
                     )
                 }
-
+                
                 HStack {
                     Label("Theme", systemImage: "paintpalette")
                     Spacer()
@@ -155,7 +155,7 @@ struct StandupDetailView: View {
             } header: {
                 Text("Standup Info")
             }
-
+            
             if !self.model.standup.meetings.isEmpty {
                 Section {
                     ForEach(self.model.standup.meetings) { meeting in
@@ -176,7 +176,7 @@ struct StandupDetailView: View {
                     Text("Past meetings")
                 }
             }
-
+            
             Section {
                 ForEach(self.model.standup.attendees) { attendee in
                     Label(attendee.name, systemImage: "person")
@@ -184,7 +184,7 @@ struct StandupDetailView: View {
             } header: {
                 Text("Attendees")
             }
-
+            
             Section {
                 Button("Delete") {
                     self.model.deleteButtonTapped()
@@ -233,10 +233,10 @@ struct StandupDetailView: View {
             }
         }
         .navigationDestination(
-          unwrapping: self.$model.destination,
-          case: /StandupDetailModel.Destination.record
+            unwrapping: self.$model.destination,
+            case: /StandupDetailModel.Destination.record
         ) { $recordMeetingModel in
-          RecordMeetingView(model: recordMeetingModel)
+            RecordMeetingView(model: recordMeetingModel)
         }
     }
 }
@@ -244,7 +244,7 @@ struct StandupDetailView: View {
 struct MeetingView: View {
     let meeting: Meeting
     let standup: Standup
-
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {

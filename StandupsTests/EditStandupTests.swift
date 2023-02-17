@@ -19,20 +19,20 @@ class EditStandupTests: XCTestCase {
                 ]
             )
         )
-
+        
         model.deleteAttendees(atOffsets: [1])
-
+        
         XCTAssertEqual(model.standup.attendees.count, 1)
         XCTAssertEqual(model.standup.attendees[0].name, "Blob")
-
+        
         XCTAssertEqual(model.focus, .attendee(model.standup.attendees[0].id))
     }
-
+    
     func testAdd() {
         let model = EditStandupModel(
             standup: Standup(id: Standup.ID(UUID()))
         )
-
+        
         XCTAssertEqual(model.standup.attendees.count, 1)
         XCTAssertEqual(model.focus, .title)
         model.addAttendeeButtonTapped()

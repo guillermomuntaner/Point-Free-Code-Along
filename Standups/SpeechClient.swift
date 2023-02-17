@@ -32,7 +32,7 @@ extension SpeechClient: DependencyKey {
             }
         )
     }
-
+    
     static var previewValue: SpeechClient {
         let isRecording = LockIsolated(false)
         return Self(
@@ -108,7 +108,7 @@ private actor Speech {
     private var audioEngine: AVAudioEngine? = nil
     private var recognitionTask: SFSpeechRecognitionTask? = nil
     private var recognitionContinuation: AsyncThrowingStream<SpeechRecognitionResult, Error>.Continuation?
-
+    
     func startTask(
         request: SFSpeechAudioBufferRecognitionRequest
     ) -> AsyncThrowingStream<SpeechRecognitionResult, Error> {
@@ -135,14 +135,14 @@ private actor Speech {
                     fatalError("It should not be possible to have both a nil result and nil error.")
                 }
             }
-
+            
             continuation.onTermination = { [audioEngine, recognitionTask] _ in
                 _ = speechRecognizer
                 audioEngine?.stop()
                 audioEngine?.inputNode.removeTap(onBus: 0)
                 recognitionTask?.finish()
             }
-
+            
             self.audioEngine?.inputNode.installTap(
                 onBus: 0,
                 bufferSize: 1024,
@@ -150,7 +150,7 @@ private actor Speech {
             ) { buffer, when in
                 request.append(buffer)
             }
-
+            
             self.audioEngine?.prepare()
             do {
                 try self.audioEngine?.start()

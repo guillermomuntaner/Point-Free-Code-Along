@@ -16,7 +16,7 @@ struct  Standup: Equatable, Identifiable, Codable {
     var meetings: IdentifiedArrayOf<Meeting> = []
     var theme: Theme = .bubblegum
     var title = ""
-
+    
     var durationPerAttendee: Duration {
         self.duration / self.attendees.count
     }
@@ -50,9 +50,9 @@ enum Theme: String, CaseIterable, Equatable, Hashable, Identifiable, Codable {
     case tan
     case teal
     case yellow
-
+    
     var id: Self { self }
-
+    
     var accentColor: Color {
         switch self {
         case
@@ -67,37 +67,37 @@ enum Theme: String, CaseIterable, Equatable, Hashable, Identifiable, Codable {
                 .tan,
                 .teal,
                 .yellow:
-
+            
             return .black
         case .indigo, .magenta, .navy, .oxblood, .purple:
             return .white
         }
     }
-
+    
     var mainColor: Color { Color(self.rawValue) }
-
+    
     var name: String { self.rawValue.capitalized }
 }
 
 // MARK: - Mocks
 
 extension Standup {
-  static let mock = Self(
-    id: Standup.ID(UUID()),
-    attendees: [
-      Attendee(id: Attendee.ID(UUID()), name: "Blob"),
-      Attendee(id: Attendee.ID(UUID()), name: "Blob Jr"),
-      Attendee(id: Attendee.ID(UUID()), name: "Blob Sr"),
-      Attendee(id: Attendee.ID(UUID()), name: "Blob Esq"),
-      Attendee(id: Attendee.ID(UUID()), name: "Blob III"),
-      Attendee(id: Attendee.ID(UUID()), name: "Blob I"),
-    ],
-    duration: .seconds(60),
-    meetings: [
-      Meeting(
-        id: Meeting.ID(UUID()),
-        date: Date().addingTimeInterval(-60 * 60 * 24 * 7),
-        transcript: """
+    static let mock = Self(
+        id: Standup.ID(UUID()),
+        attendees: [
+            Attendee(id: Attendee.ID(UUID()), name: "Blob"),
+            Attendee(id: Attendee.ID(UUID()), name: "Blob Jr"),
+            Attendee(id: Attendee.ID(UUID()), name: "Blob Sr"),
+            Attendee(id: Attendee.ID(UUID()), name: "Blob Esq"),
+            Attendee(id: Attendee.ID(UUID()), name: "Blob III"),
+            Attendee(id: Attendee.ID(UUID()), name: "Blob I"),
+        ],
+        duration: .seconds(60),
+        meetings: [
+            Meeting(
+                id: Meeting.ID(UUID()),
+                date: Date().addingTimeInterval(-60 * 60 * 24 * 7),
+                transcript: """
           Lorem ipsum dolor sit amet, consectetur \
           adipiscing elit, sed do eiusmod tempor \
           incididunt ut labore et dolore magna aliqua. \
@@ -110,9 +110,9 @@ extension Standup {
           proident, sunt in culpa qui officia deserunt \
           mollit anim id est laborum.
           """
-      )
-    ],
-    theme: .orange,
-    title: "Design"
-  )
+            )
+        ],
+        theme: .orange,
+        title: "Design"
+    )
 }

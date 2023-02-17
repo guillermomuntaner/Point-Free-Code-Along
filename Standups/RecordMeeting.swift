@@ -15,31 +15,31 @@ import Dependencies
 @MainActor
 class RecordMeetingModel: ObservableObject {
     let standup: Standup
-
+    
     @Published var destination: Destination?
     @Published var dismiss = false
     @Published var secondsElapsed = 0
     @Published var speakerIndex = 0
     private var transcript = ""
-
+    
     @Dependency(\.continuousClock) var clock
     @Dependency(\.speechClient) var speechClient
-
+    
     enum Destination {
         case alert(AlertState<AlertAction>)
     }
-
+    
     enum AlertAction {
         case confirmSave
         case confirmDiscard
     }
-
+    
     var onMeetingFinished: (String) -> Void = unimplemented("RecordMeetingModel.onMeetingFinished")
-
+    
     var durationRemaining: Duration {
         self.standup.duration - .seconds(self.secondsElapsed)
     }
-
+    
     init(
         destination: Destination? = nil,
         standup: Standup
@@ -47,14 +47,14 @@ class RecordMeetingModel: ObservableObject {
         self.destination = destination
         self.standup = standup
     }
-
+    
     var isAlertOpen: Bool {
         switch destination {
         case .none: return false
         case .some: return true
         }
     }
-
+    
     func nextButtonTapped() {
         guard self.speakerIndex < self.standup.attendees.count - 1
         else {
@@ -78,11 +78,11 @@ class RecordMeetingModel: ObservableObject {
             )
             return
         }
-
+        
         self.speakerIndex += 1
         self.secondsElapsed = self.speakerIndex * Int(self.standup.durationPerAttendee.components.seconds)
     }
-
+    
     func endMeetingButtonTapped() {
         self.destination = .alert(
             AlertState(
@@ -107,18 +107,18 @@ class RecordMeetingModel: ObservableObject {
             )
         )
     }
-
+    
     func alertButtonTapped(_ action: AlertAction) {
         switch action {
         case .confirmSave:
             self.onMeetingFinished(self.transcript)
             self.dismiss = true
-
+            
         case .confirmDiscard:
             self.dismiss = true
         }
     }
-
+    
     @MainActor
     func task() async {
         do {
@@ -138,19 +138,19 @@ class RecordMeetingModel: ObservableObject {
             self.destination = .alert(AlertState(title: TextState("Something went wrong.")))
         }
     }
-
+    
     private func startSpeechRecognition() async throws {
         let request = SFSpeechAudioBufferRecognitionRequest()
         for try await result in await self.speechClient.startTask(request) {
             self.transcript = result.bestTranscription.formattedString
         }
     }
-
+    
     private func startTimer() async throws {
         for await _ in self.clock.timer(interval: .seconds(1)) where !self.isAlertOpen {
-
+            
             self.secondsElapsed += 1
-
+            
             if self.secondsElapsed.isMultiple(of: Int(self.standup.durationPerAttendee.components.seconds)) {
                 if self.speakerIndex == self.standup.attendees.count - 1 {
                     self.onMeetingFinished(self.transcript)
@@ -159,7 +159,7 @@ class RecordMeetingModel: ObservableObject {
                 }
                 self.speakerIndex += 1
             }
-
+            
         }
     }
 }
@@ -172,7 +172,7 @@ struct RecordMeetingView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 16)
                 .fill(self.model.standup.theme.mainColor)
-
+            
             VStack {
                 MeetingHeaderView(
                     secondsElapsed: self.model.secondsElapsed,
@@ -218,7 +218,7 @@ struct MeetingHeaderView: View {
     let secondsElapsed: Int
     let durationRemaining: Duration
     let theme: Theme
-
+    
     var body: some View {
         VStack {
             ProgressView(value: self.progress)
@@ -249,12 +249,12 @@ struct MeetingHeaderView: View {
         }
         .padding([.top, .horizontal])
     }
-
+    
     private var totalDuration: Duration {
         .seconds(self.secondsElapsed)
         + self.durationRemaining
     }
-
+    
     private var progress: Double {
         guard totalDuration > .seconds(0) else { return 0 }
         return Double(self.secondsElapsed)
@@ -264,7 +264,7 @@ struct MeetingHeaderView: View {
 
 struct MeetingProgressViewStyle: ProgressViewStyle {
     var theme: Theme
-
+    
     func makeBody(
         configuration: Configuration
     ) -> some View {
@@ -272,7 +272,7 @@ struct MeetingProgressViewStyle: ProgressViewStyle {
             RoundedRectangle(cornerRadius: 10.0)
                 .fill(theme.accentColor)
                 .frame(height: 20.0)
-
+            
             ProgressView(configuration)
                 .tint(theme.mainColor)
                 .frame(height: 12.0)
@@ -284,7 +284,7 @@ struct MeetingProgressViewStyle: ProgressViewStyle {
 struct MeetingTimerView: View {
     let standup: Standup
     let speakerIndex: Int
-
+    
     var body: some View {
         Circle()
             .strokeBorder(lineWidth: 24)
@@ -319,7 +319,7 @@ struct MeetingTimerView: View {
             }
             .padding(.horizontal)
     }
-
+    
     private var currentSpeakerName: String {
         guard
             self.speakerIndex < self.standup.attendees.count
@@ -332,7 +332,7 @@ struct MeetingTimerView: View {
 struct SpeakerArc: Shape {
     let totalSpeakers: Int
     let speakerIndex: Int
-
+    
     private var degreesPerSpeaker: Double {
         360.0 / Double(totalSpeakers)
     }
@@ -350,7 +350,7 @@ struct SpeakerArc: Shape {
             - 1.0
         )
     }
-
+    
     func path(in rect: CGRect) -> Path {
         let diameter = min(
             rect.size.width, rect.size.height
@@ -373,7 +373,7 @@ struct MeetingFooterView: View {
     let standup: Standup
     var nextButtonTapped: () -> Void
     let speakerIndex: Int
-
+    
     var body: some View {
         VStack {
             HStack {
@@ -386,7 +386,7 @@ struct MeetingFooterView: View {
         }
         .padding([.bottom, .horizontal])
     }
-
+    
     private var speakerText: String {
         guard
             self.speakerIndex

@@ -11,7 +11,7 @@ import SwiftUINavigation
 class EditStandupModel: ObservableObject {
     @Published var focus: EditStandupView.Field?
     @Published var standup: Standup
-
+    
     init(
         focus: EditStandupView.Field? = .title,
         standup: Standup
@@ -25,7 +25,7 @@ class EditStandupModel: ObservableObject {
         }
         self.focus = .title
     }
-
+    
     func deleteAttendees(atOffsets indices: IndexSet) {
         self.standup.attendees.remove(atOffsets: indices)
         if self.standup.attendees.isEmpty {
@@ -34,11 +34,11 @@ class EditStandupModel: ObservableObject {
             )
         }
         let index = min(
-          indices.first!, self.standup.attendees.count - 1
+            indices.first!, self.standup.attendees.count - 1
         )
         self.focus = .attendee(self.standup.attendees[index].id)
     }
-
+    
     func addAttendeeButtonTapped() {
         let attendee = Attendee(id: Attendee.ID(UUID()), name: "")
         self.standup.attendees.append(attendee)
@@ -51,11 +51,11 @@ struct EditStandupView: View {
         case attendee(Attendee.ID)
         case title
     }
-
+    
     @FocusState var focus: Field?
     // ObservedObject because needs to be connected to parent
     @ObservedObject var model: EditStandupModel
-
+    
     var body: some View {
         Form {
             Section {
@@ -83,7 +83,7 @@ struct EditStandupView: View {
                 .onDelete { indices in
                     self.model.deleteAttendees(atOffsets: indices)
                 }
-
+                
                 Button("New attendee") {
                     self.model.addAttendeeButtonTapped()
                 }
@@ -97,7 +97,7 @@ struct EditStandupView: View {
 
 struct ThemePicker: View {
     @Binding var selection: Theme
-
+    
     var body: some View {
         Picker("Theme", selection: $selection) {
             ForEach(Theme.allCases) { theme in

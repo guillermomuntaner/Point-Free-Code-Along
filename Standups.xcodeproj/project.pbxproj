@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A916C92829ABE03E004CBDB8 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = A916C92729ABE03E004CBDB8 /* App.swift */; };
 		A96280F6299ACA57009B3772 /* StandupsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96280F5299ACA57009B3772 /* StandupsApp.swift */; };
 		A96280FA299ACA57009B3772 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A96280F9299ACA57009B3772 /* Assets.xcassets */; };
 		A96280FE299ACA57009B3772 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A96280FD299ACA57009B3772 /* Preview Assets.xcassets */; };
@@ -50,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A916C92729ABE03E004CBDB8 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		A96280F2299ACA57009B3772 /* Standups.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Standups.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A96280F5299ACA57009B3772 /* StandupsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupsApp.swift; sourceTree = "<group>"; };
 		A96280F9299ACA57009B3772 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				A962813C299E8CAC009B3772 /* RecordMeeting.swift */,
 				A962814C299EC4A3009B3772 /* DataManager.swift */,
 				A962814E299EC819009B3772 /* SpeechClient.swift */,
+				A916C92729ABE03E004CBDB8 /* App.swift */,
 			);
 			path = Standups;
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A916C92829ABE03E004CBDB8 /* App.swift in Sources */,
 				A9628134299CE8DA009B3772 /* EditStandupView.swift in Sources */,
 				A962814D299EC4A3009B3772 /* DataManager.swift in Sources */,
 				A9628125299ACD1A009B3772 /* Models.swift in Sources */,

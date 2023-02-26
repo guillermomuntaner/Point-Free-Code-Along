@@ -11,7 +11,11 @@ import SwiftUI
 struct StandupsApp: App {
     var body: some Scene {
         WindowGroup {
-            StandupsList(model: StandupsListModel())
+            AppView(
+                model: AppModel(
+                    standupList: StandupsListModel()
+                )
+            )
         }
     }
 }

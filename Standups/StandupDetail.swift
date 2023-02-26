@@ -12,21 +12,20 @@ import Clocks
 import Dependencies
 
 @MainActor
-class StandupDetailModel: ObservableObject {
-    @Published var destination: Destination? {
-        didSet { self.bind() }
-    }
+class StandupDetailModel: ObservableObject, Hashable {
+
+    @Published var destination: Destination?
     @Published var standup: Standup
     
     @Dependency(\.continuousClock) var clock
     
     var onConfirmDeletion: () -> Void = unimplemented("StandupDetailModel.onConfirmDeletion")
-    
+    var onMeetingTapped: (Meeting) -> Void = unimplemented("StandupDetailModel.onMeetingTapped")
+    var onMeetingStarted: (Standup) -> Void = unimplemented("StandupDetailModel.onMeetingStarted")
+
     enum Destination {
         case alert(AlertState<AlertAction>)
-        case edit(EditStandupModel )
-        case meeting(Meeting)
-        case record(RecordMeetingModel)
+        case edit(EditStandupModel)
     }
     
     enum AlertAction {
@@ -39,15 +38,22 @@ class StandupDetailModel: ObservableObject {
     ) {
         self.destination = destination
         self.standup = standup
-        self.bind()
     }
-    
+
+    nonisolated static func == (lhs: StandupDetailModel, rhs: StandupDetailModel) -> Bool {
+        lhs === rhs
+    }
+
+    nonisolated func hash(into hasher: inout Hasher) {
+        hasher.combine(ObjectIdentifier(self))
+    }
+
     func deleteMeetings(atOffsets indices: IndexSet) {
         self.standup.meetings.remove(atOffsets: indices)
     }
     
     func meetingTapping(_ meeting: Meeting) {
-        self.destination = .meeting(meeting)
+        onMeetingTapped(meeting)
     }
     
     func deleteButtonTapped() {
@@ -78,34 +84,7 @@ class StandupDetailModel: ObservableObject {
     }
     
     func startMeetingTapped() {
-        self.destination = .record(RecordMeetingModel(standup: standup))
-    }
-    
-    private func bind() {
-        switch destination {
-        case let .record(recordMeetingModel):
-            recordMeetingModel.onMeetingFinished = { [weak self] transcript in
-                guard let self else { return }
-                
-                Task {
-                    try? await self.clock.sleep(for: .milliseconds(400))
-                    withAnimation {
-                        _ = self.standup.meetings.insert(
-                            Meeting(
-                                id: Meeting.ID(UUID()),
-                                date: Date(),
-                                transcript: transcript
-                            ),
-                            at: 0
-                        )
-                    }
-                }
-                self.destination = nil
-            }
-            
-        case .edit, .alert, .meeting, .none:
-            break
-        }
+        self.onMeetingStarted(standup)
     }
 }
 
@@ -199,12 +178,6 @@ struct StandupDetailView: View {
                 self.model.editButtonTapped()
             }
         }
-        .navigationDestination(
-            unwrapping: self.$model.destination,
-            case: /StandupDetailModel.Destination.meeting
-        ) { $meeting in
-            MeetingView(meeting: meeting, standup: self.model.standup)
-        }
         .alert(
             unwrapping: self.$model.destination,
             case: /StandupDetailModel.Destination.alert
@@ -231,12 +204,6 @@ struct StandupDetailView: View {
                         }
                     }
             }
-        }
-        .navigationDestination(
-            unwrapping: self.$model.destination,
-            case: /StandupDetailModel.Destination.record
-        ) { $recordMeetingModel in
-            RecordMeetingView(model: recordMeetingModel)
         }
     }
 }

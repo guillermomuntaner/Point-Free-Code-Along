@@ -13,9 +13,7 @@ import Dependencies
 
 @MainActor
 final class StandupsListModel: ObservableObject {
-    @Published var destination: Destination? {
-        didSet { self.bind() }
-    }
+    @Published var destination: Destination?
     @Published var standups: IdentifiedArrayOf<Standup>
     
     private var destinationCancellable: AnyCancellable?
@@ -23,10 +21,11 @@ final class StandupsListModel: ObservableObject {
     
     @Dependency(\.dataManager) var dataManager
     @Dependency(\.mainQueue) var mainQueue
-    
+
+    var onStandupTapped: (Standup) -> Void = unimplemented("StandupsListModel.onStandupTapped")
+
     enum Destination {
         case add(EditStandupModel)
-        case detail(StandupDetailModel)
     }
     
     init(
@@ -60,8 +59,6 @@ final class StandupsListModel: ObservableObject {
                 }
             }
             .store(in: &self.cancellables)
-        
-        self.bind()
     }
     
     func addStandupButtonTapped() {
@@ -90,33 +87,7 @@ final class StandupsListModel: ObservableObject {
     }
     
     func standupTapped(standup: Standup) {
-        self.destination = .detail(
-            StandupDetailModel(standup: standup)
-        )
-    }
-    
-    private func bind() {
-        switch self.destination {
-        case let .detail(standupDetailModel):
-            standupDetailModel.onConfirmDeletion = { [weak self, id = standupDetailModel.standup.id] in
-                guard let self else { return }
-                
-                withAnimation {
-                    self.standups.remove(id: id)
-                    self.destination = nil
-                }
-            }
-            
-            self.destinationCancellable = standupDetailModel.$standup
-                .sink { [weak self] standup in
-                    guard let self else { return }
-                    
-                    self.standups[id: standup.id] = standup
-                }
-            
-        case .add, .none:
-            break
-        }
+        self.onStandupTapped(standup)
     }
 }
 
@@ -124,51 +95,43 @@ struct StandupsList: View {
     @ObservedObject var model: StandupsListModel
     
     var body: some View {
-        NavigationStack {
-            List {
-                ForEach(self.model.standups) { standup in
-                    Button {
-                        self.model.standupTapped(standup: standup)
-                    } label: {
-                        CardView(standup: standup)
-                    }
-                    .listRowBackground(standup.theme.mainColor)
-                }
-            }
-            .toolbar {
+        List {
+            ForEach(self.model.standups) { standup in
                 Button {
-                    self.model.addStandupButtonTapped()
+                    self.model.standupTapped(standup: standup)
                 } label: {
-                    Image(systemName: "plus")
+                    CardView(standup: standup)
                 }
+                .listRowBackground(standup.theme.mainColor)
             }
-            .navigationTitle("Daily Standups")
-            .sheet(
-                unwrapping: self.$model.destination,
-                case: /StandupsListModel.Destination.add // CasePath is a PointFree.co lib
-            ) { $model in
-                NavigationStack {
-                    EditStandupView(model: model)
-                        .navigationTitle("New standup")
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button("Dismiss") {
-                                    self.model.dismissAddStandupButtonTap()
-                                }
-                            }
-                            ToolbarItem(placement: .confirmationAction) {
-                                Button("Save") {
-                                    self.model.confirmAddStandupButtonTapped()
-                                }
+        }
+        .toolbar {
+            Button {
+                self.model.addStandupButtonTapped()
+            } label: {
+                Image(systemName: "plus")
+            }
+        }
+        .navigationTitle("Daily Standups")
+        .sheet(
+            unwrapping: self.$model.destination,
+            case: /StandupsListModel.Destination.add // CasePath is a PointFree.co lib
+        ) { $model in
+            NavigationStack {
+                EditStandupView(model: model)
+                    .navigationTitle("New standup")
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Dismiss") {
+                                self.model.dismissAddStandupButtonTap()
                             }
                         }
-                }
-            }
-            .navigationDestination(
-                unwrapping: self.$model.destination,
-                case: /StandupsListModel.Destination.detail
-            ) { $detailModel in
-                StandupDetailView(model: detailModel)
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Save") {
+                                self.model.confirmAddStandupButtonTapped()
+                            }
+                        }
+                    }
             }
         }
     }

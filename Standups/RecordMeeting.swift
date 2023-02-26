@@ -13,11 +13,10 @@ import Dependencies
 @preconcurrency import Speech
 
 @MainActor
-class RecordMeetingModel: ObservableObject {
+class RecordMeetingModel: ObservableObject, Hashable {
     let standup: Standup
     
     @Published var destination: Destination?
-    @Published var dismiss = false
     @Published var secondsElapsed = 0
     @Published var speakerIndex = 0
     private var transcript = ""
@@ -35,7 +34,8 @@ class RecordMeetingModel: ObservableObject {
     }
     
     var onMeetingFinished: (String) -> Void = unimplemented("RecordMeetingModel.onMeetingFinished")
-    
+    var onDiscardMeeting: () -> Void = unimplemented("RecordMeetingModel.onDiscardMeeting")
+
     var durationRemaining: Duration {
         self.standup.duration - .seconds(self.secondsElapsed)
     }
@@ -46,6 +46,14 @@ class RecordMeetingModel: ObservableObject {
     ) {
         self.destination = destination
         self.standup = standup
+    }
+
+    nonisolated static func == (lhs: RecordMeetingModel, rhs: RecordMeetingModel) -> Bool {
+        lhs === rhs
+    }
+
+    nonisolated func hash(into hasher: inout Hasher) {
+        hasher.combine(ObjectIdentifier(self))
     }
     
     var isAlertOpen: Bool {
@@ -112,10 +120,9 @@ class RecordMeetingModel: ObservableObject {
         switch action {
         case .confirmSave:
             self.onMeetingFinished(self.transcript)
-            self.dismiss = true
             
         case .confirmDiscard:
-            self.dismiss = true
+            self.onDiscardMeeting()
         }
     }
     
@@ -154,7 +161,6 @@ class RecordMeetingModel: ObservableObject {
             if self.secondsElapsed.isMultiple(of: Int(self.standup.durationPerAttendee.components.seconds)) {
                 if self.speakerIndex == self.standup.attendees.count - 1 {
                     self.onMeetingFinished(self.transcript)
-                    self.dismiss = true
                     break
                 }
                 self.speakerIndex += 1
@@ -202,9 +208,6 @@ struct RecordMeetingView: View {
         }
         .navigationBarBackButtonHidden(true)
         .task { await self.model.task() }
-        .onChange(of: self.model.dismiss) { newValue in
-            self.dismiss()
-        }
         .alert(
             unwrapping: self.$model.destination,
             case: /RecordMeetingModel.Destination.alert

@@ -1,4 +1,4 @@
-# Modern SwiftUI
+# Point-Free Code Along
 
-Following the [Modern SwiftUI](https://www.pointfree.co/collections/swiftui/modern-swiftui) video series collection from Point-Free
-
+Coding along [Point-Free](https://www.pointfree.co/) video series
+* [Modern SwiftUI](https://www.pointfree.co/collections/swiftui/modern-swiftui)

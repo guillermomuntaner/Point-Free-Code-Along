@@ -1,6 +1,43 @@
 import SwiftUI
 import PlaygroundSupport
 
+// MARK: - Architecture
+
+final class Store<Value, Action>: ObservableObject {
+    let reducer: (inout Value, Action) -> Void
+    @Published private(set) var value: Value
+
+    init(initialValue: Value, reducer: @escaping (inout Value, Action) -> Void) {
+        self.value = initialValue
+        self.reducer = reducer
+    }
+
+    func send(_ action: Action) {
+        self.reducer(&self.value, action)
+    }
+}
+
+func pullback<LocalValue, GlobalValue, GlobalAction, LocalAction>(
+    _ reducer: @escaping (inout LocalValue, LocalAction) -> Void,
+    value: WritableKeyPath<GlobalValue, LocalValue>,
+    action: KeyPath<GlobalAction, LocalAction?>
+) -> (inout GlobalValue, GlobalAction) -> Void {
+    return { globalValue, globalAction in
+        guard let localAction = globalAction[keyPath: action] else { return }
+        reducer(&globalValue[keyPath: value], localAction)
+    }
+}
+
+func combine<Value, Action>(
+    _ reducers: (inout Value, Action) -> Void...
+) -> (inout Value, Action) -> Void {
+    return { value, action in
+        for reducer in reducers {
+            reducer(&value, action)
+        }
+    }
+}
+
 // MARK: - Model
 
 struct User {
@@ -95,84 +132,67 @@ func primeModalReducer(state: inout AppState, action: PrimeModalAction) -> Void 
     switch action {
     case .saveFavoritePrimeTapped:
         state.favoritePrimes.append(state.count)
-        state.activityFeed.append(.init(timestamp: Date(), type: .addedFavoritePrime(state.count)))
 
     case .removeFavoritePrimeTapped:
         state.favoritePrimes.removeAll(where: { $0 == state.count })
-        state.activityFeed.append(.init(timestamp: Date(), type: .removedFavoritePrime(state.count)))
     }
 }
 
-struct FavoritePrimesState {
-    var favoritePrimes: [Int]
-    var activityFeed: [Activity]
-}
-
-func favoritePrimesReducer(state: inout FavoritePrimesState, action: FavoritePrimesAction) -> Void {
+func favoritePrimesReducer(state: inout [Int], action: FavoritePrimesAction) -> Void {
     switch action {
     case let .removeFavoritePrimes(indexSet):
         for index in indexSet {
-            state.activityFeed.append(.init(timestamp: Date(), type: .removedFavoritePrime(state.favoritePrimes[index])))
-            state.favoritePrimes.remove(at: index)
+            state.remove(at: index)
         }
     }
 }
 
-func pullback<LocalValue, GlobalValue, GlobalAction, LocalAction>(
-    _ reducer: @escaping (inout LocalValue, LocalAction) -> Void,
-    value: WritableKeyPath<GlobalValue, LocalValue>,
-    action: KeyPath<GlobalAction, LocalAction?>
-) -> (inout GlobalValue, GlobalAction) -> Void {
-    return { globalValue, globalAction in
-        guard let localAction = globalAction[keyPath: action] else { return }
-        reducer(&globalValue[keyPath: value], localAction)
+func activityFeed(
+    _ reducer: @escaping (inout AppState, AppAction) -> Void
+) -> (inout AppState, AppAction) -> Void {
+    return { state, action in
+        switch action {
+        case .counter:
+            break
+
+        case .primeModal(.saveFavoritePrimeTapped):
+            state.activityFeed.append(.init(timestamp: Date(), type: .addedFavoritePrime(state.count)))
+
+        case .primeModal(.removeFavoritePrimeTapped):
+            state.activityFeed.append(.init(timestamp: Date(), type: .removedFavoritePrime(state.count)))
+
+        case let .favoritePrimes(.removeFavoritePrimes(indexSet)):
+            for index in indexSet {
+                state.activityFeed.append(.init(timestamp: Date(), type: .removedFavoritePrime(state.favoritePrimes[index])))
+            }
+        }
+
+        reducer(&state, action)
     }
 }
 
-extension AppState {
-    var favoritePrimesState: FavoritePrimesState {
-        get {
-            return FavoritePrimesState(
-                favoritePrimes: self.favoritePrimes,
-                activityFeed: self.activityFeed
-            )
-        }
-        set {
-            self.activityFeed = newValue.activityFeed
-            self.favoritePrimes = newValue.favoritePrimes
-        }
+func logging(
+    _ reducer: @escaping (inout AppState, AppAction) -> Void
+) -> (inout AppState, AppAction) -> Void {
+    return { state, action in
+        reducer(&state, action)
+        print("Action: \(action)")
+        print("Value:")
+        dump(state)
+        print("---")
+
     }
 }
 
-let appReducer: (inout AppState, AppAction) -> Void = combine(
-    pullback(counterReducer, value: \.count, action: \.counter),
-    pullback(primeModalReducer, value: \.self, action: \.primeModal),
-    pullback(favoritePrimesReducer, value: \.favoritePrimesState, action: \.favoritePrimes)
+let appReducer: (inout AppState, AppAction) -> Void = logging(
+    activityFeed(
+        combine(
+            pullback(counterReducer, value: \.count, action: \.counter),
+            pullback(primeModalReducer, value: \.self, action: \.primeModal),
+            pullback(favoritePrimesReducer, value: \.favoritePrimes, action: \.favoritePrimes)
+        )
+    )
 )
-
-func combine<Value, Action>(
-    _ reducers: (inout Value, Action) -> Void...
-) -> (inout Value, Action) -> Void {
-    return { value, action in
-        for reducer in reducers {
-            reducer(&value, action)
-        }
-    }
-}
-
-final class Store<Value, Action>: ObservableObject {
-    let reducer: (inout Value, Action) -> Void
-    @Published var value: Value
-
-    init(initialValue: Value, reducer: @escaping (inout Value, Action) -> Void) {
-        self.value = initialValue
-        self.reducer = reducer
-    }
-
-    func send(_ action: Action) {
-        self.reducer(&self.value, action)
-    }
-}
 
 extension Int: Identifiable {
     public var id: Int { return self }

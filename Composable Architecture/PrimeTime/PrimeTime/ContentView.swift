@@ -5,43 +5,10 @@
 //  Created by Guillermo Muntaner on 01.03.23.
 //
 import SwiftUI
-
-// MARK: - Architecture
-
-final class Store<Value, Action>: ObservableObject {
-    let reducer: (inout Value, Action) -> Void
-    @Published private(set) var value: Value
-
-    init(initialValue: Value, reducer: @escaping (inout Value, Action) -> Void) {
-        self.value = initialValue
-        self.reducer = reducer
-    }
-
-    func send(_ action: Action) {
-        self.reducer(&self.value, action)
-    }
-}
-
-func pullback<LocalValue, GlobalValue, GlobalAction, LocalAction>(
-    _ reducer: @escaping (inout LocalValue, LocalAction) -> Void,
-    value: WritableKeyPath<GlobalValue, LocalValue>,
-    action: KeyPath<GlobalAction, LocalAction?>
-) -> (inout GlobalValue, GlobalAction) -> Void {
-    return { globalValue, globalAction in
-        guard let localAction = globalAction[keyPath: action] else { return }
-        reducer(&globalValue[keyPath: value], localAction)
-    }
-}
-
-func combine<Value, Action>(
-    _ reducers: (inout Value, Action) -> Void...
-) -> (inout Value, Action) -> Void {
-    return { value, action in
-        for reducer in reducers {
-            reducer(&value, action)
-        }
-    }
-}
+import ComposableArchitecture
+import FavoritePrimes
+import Counter
+import PrimeModal
 
 // MARK: - Model
 
@@ -83,20 +50,20 @@ struct AppState {
     var loggedInUser: User?
 }
 
-enum CounterAction {
-    case decreaseTapped
-    case increaseTapped
+extension AppState {
+    var primeModel: PrimeModalState {
+        get {
+            PrimeModalState(
+                count: self.count,
+                favoritePrimes: self.favoritePrimes
+            )
+        }
+        set {
+            self.count = newValue.count
+            self.favoritePrimes = newValue.favoritePrimes
+        }
+    }
 }
-
-enum PrimeModalAction {
-    case saveFavoritePrimeTapped
-    case removeFavoritePrimeTapped
-}
-
-enum FavoritePrimesAction {
-    case removeFavoritePrimes(IndexSet)
-}
-
 enum AppAction {
     case counter(CounterAction)
     case primeModal(PrimeModalAction)
@@ -120,34 +87,6 @@ enum AppAction {
         get {
             guard case let .favoritePrimes(value) = self else { return nil }
             return value
-        }
-    }
-}
-
-func counterReducer(state: inout Int, action: CounterAction) {
-    switch action {
-    case .decreaseTapped:
-        state = max(0, state - 1)
-    case .increaseTapped:
-        state += 1
-    }
-}
-
-func primeModalReducer(state: inout AppState, action: PrimeModalAction) -> Void {
-    switch action {
-    case .saveFavoritePrimeTapped:
-        state.favoritePrimes.append(state.count)
-
-    case .removeFavoritePrimeTapped:
-        state.favoritePrimes.removeAll(where: { $0 == state.count })
-    }
-}
-
-func favoritePrimesReducer(state: inout [Int], action: FavoritePrimesAction) -> Void {
-    switch action {
-    case let .removeFavoritePrimes(indexSet):
-        for index in indexSet {
-            state.remove(at: index)
         }
     }
 }
@@ -176,24 +115,11 @@ func activityFeed(
     }
 }
 
-func logging(
-    _ reducer: @escaping (inout AppState, AppAction) -> Void
-) -> (inout AppState, AppAction) -> Void {
-    return { state, action in
-        reducer(&state, action)
-        print("Action: \(action)")
-        print("Value:")
-        dump(state)
-        print("---")
-
-    }
-}
-
 let appReducer: (inout AppState, AppAction) -> Void = logging(
     activityFeed(
         combine(
             pullback(counterReducer, value: \.count, action: \.counter),
-            pullback(primeModalReducer, value: \.self, action: \.primeModal),
+            pullback(primeModalReducer, value: \.primeModel, action: \.primeModal),
             pullback(favoritePrimesReducer, value: \.favoritePrimes, action: \.favoritePrimes)
         )
     )

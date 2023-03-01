@@ -13,6 +13,12 @@
 		A9CFA7C929AF584C0093F880 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9CFA7C829AF584C0093F880 /* Preview Assets.xcassets */; };
 		A9CFA7D329AF584C0093F880 /* PrimeTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CFA7D229AF584C0093F880 /* PrimeTimeTests.swift */; };
 		A9CFA7ED29AF587D0093F880 /* WolframAlpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CFA7EC29AF587D0093F880 /* WolframAlpha.swift */; };
+		A9CFA7F429AF5F590093F880 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = A9CFA7F329AF5F590093F880 /* ComposableArchitecture */; };
+		A9CFA7F629AF5F5E0093F880 /* Counter in Frameworks */ = {isa = PBXBuildFile; productRef = A9CFA7F529AF5F5E0093F880 /* Counter */; };
+		A9CFA7F829AF5F610093F880 /* FavoritePrimes in Frameworks */ = {isa = PBXBuildFile; productRef = A9CFA7F729AF5F610093F880 /* FavoritePrimes */; };
+		A9CFA7FC29AF625D0093F880 /* PrimeModal in Resources */ = {isa = PBXBuildFile; fileRef = A9CFA7FB29AF625D0093F880 /* PrimeModal */; };
+		A9CFA7FD29AF625D0093F880 /* PrimeModal in Resources */ = {isa = PBXBuildFile; fileRef = A9CFA7FB29AF625D0093F880 /* PrimeModal */; };
+		A9CFA7FF29AF62B40093F880 /* PrimeModal in Frameworks */ = {isa = PBXBuildFile; productRef = A9CFA7FE29AF62B40093F880 /* PrimeModal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +40,10 @@
 		A9CFA7CE29AF584C0093F880 /* PrimeTimeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PrimeTimeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9CFA7D229AF584C0093F880 /* PrimeTimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimeTimeTests.swift; sourceTree = "<group>"; };
 		A9CFA7EC29AF587D0093F880 /* WolframAlpha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WolframAlpha.swift; sourceTree = "<group>"; };
+		A9CFA7EE29AF5DBF0093F880 /* Counter */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Counter; path = ../Counter; sourceTree = "<group>"; };
+		A9CFA7EF29AF5DD30093F880 /* FavoritePrimes */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FavoritePrimes; path = ../FavoritePrimes; sourceTree = "<group>"; };
+		A9CFA7F129AF5E280093F880 /* ComposableArchitecture */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ComposableArchitecture; path = ../ComposableArchitecture; sourceTree = "<group>"; };
+		A9CFA7FB29AF625D0093F880 /* PrimeModal */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PrimeModal; path = ../PrimeModal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +51,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9CFA7FF29AF62B40093F880 /* PrimeModal in Frameworks */,
+				A9CFA7F429AF5F590093F880 /* ComposableArchitecture in Frameworks */,
+				A9CFA7F829AF5F610093F880 /* FavoritePrimes in Frameworks */,
+				A9CFA7F629AF5F5E0093F880 /* Counter in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +74,11 @@
 				A9CFA7C029AF584B0093F880 /* PrimeTime */,
 				A9CFA7D129AF584C0093F880 /* PrimeTimeTests */,
 				A9CFA7BF29AF584B0093F880 /* Products */,
+				A9CFA7F229AF5F590093F880 /* Frameworks */,
+				A9CFA7F129AF5E280093F880 /* ComposableArchitecture */,
+				A9CFA7FB29AF625D0093F880 /* PrimeModal */,
+				A9CFA7EF29AF5DD30093F880 /* FavoritePrimes */,
+				A9CFA7EE29AF5DBF0093F880 /* Counter */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,9 +96,9 @@
 			children = (
 				A9CFA7C129AF584B0093F880 /* PrimeTimeApp.swift */,
 				A9CFA7C329AF584B0093F880 /* ContentView.swift */,
+				A9CFA7EC29AF587D0093F880 /* WolframAlpha.swift */,
 				A9CFA7C529AF584C0093F880 /* Assets.xcassets */,
 				A9CFA7C729AF584C0093F880 /* Preview Content */,
-				A9CFA7EC29AF587D0093F880 /* WolframAlpha.swift */,
 			);
 			path = PrimeTime;
 			sourceTree = "<group>";
@@ -100,6 +119,13 @@
 			path = PrimeTimeTests;
 			sourceTree = "<group>";
 		};
+		A9CFA7F229AF5F590093F880 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -116,6 +142,12 @@
 			dependencies = (
 			);
 			name = PrimeTime;
+			packageProductDependencies = (
+				A9CFA7F329AF5F590093F880 /* ComposableArchitecture */,
+				A9CFA7F529AF5F5E0093F880 /* Counter */,
+				A9CFA7F729AF5F610093F880 /* FavoritePrimes */,
+				A9CFA7FE29AF62B40093F880 /* PrimeModal */,
+			);
 			productName = PrimeTime;
 			productReference = A9CFA7BE29AF584B0093F880 /* PrimeTime.app */;
 			productType = "com.apple.product-type.application";
@@ -181,6 +213,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9CFA7FC29AF625D0093F880 /* PrimeModal in Resources */,
 				A9CFA7C929AF584C0093F880 /* Preview Assets.xcassets in Resources */,
 				A9CFA7C629AF584C0093F880 /* Assets.xcassets in Resources */,
 			);
@@ -190,6 +223,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9CFA7FD29AF625D0093F880 /* PrimeModal in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,6 +498,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A9CFA7F329AF5F590093F880 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ComposableArchitecture;
+		};
+		A9CFA7F529AF5F5E0093F880 /* Counter */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Counter;
+		};
+		A9CFA7F729AF5F610093F880 /* FavoritePrimes */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FavoritePrimes;
+		};
+		A9CFA7FE29AF62B40093F880 /* PrimeModal */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PrimeModal;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A9CFA7B629AF584B0093F880 /* Project object */;
 }

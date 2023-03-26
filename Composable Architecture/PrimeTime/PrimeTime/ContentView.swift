@@ -137,10 +137,10 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: CounterView(store: self.store)) {
+                NavigationLink(destination: CounterView(store: self.store.view { ($0.count, $0.favoritePrimes) })) {
                     Text("Counter demo")
                 }
-                NavigationLink(destination: FavoritePrimes(store: self.store)) {
+                NavigationLink(destination: FavoritePrimes(store: self.store.view { $0.favoritePrimes })) {
                     Text("Favorite primes")
                 }
             }
@@ -151,8 +151,10 @@ struct ContentView: View {
     }
 }
 
+typealias CounterViewState = (count: Int, favoritePrimes: [Int])
+
 struct CounterView: View {
-    @ObservedObject var store: Store<AppState, AppAction>
+    @ObservedObject var store: Store<CounterViewState, AppAction>
     @State var isPrimeModalShown: Bool = false
     @State var alertNthPrime: Int?
     @State var isNthPrimeButtonDisabled = false
@@ -179,7 +181,7 @@ struct CounterView: View {
         .font(.title)
         .navigationTitle("Counter demo")
         .sheet(isPresented: self.$isPrimeModalShown) {
-            IsPrimeModalView(store: store)
+            IsPrimeModalView(store: store.view { PrimeModalState(count: $0.count, favoritePrimes: $0.favoritePrimes) })
         }
         .alert(item: self.$alertNthPrime) { n in
             Alert(
@@ -199,11 +201,11 @@ struct CounterView: View {
 }
 
 struct FavoritePrimes: View {
-    @ObservedObject var store: Store<AppState, AppAction>
+    @ObservedObject var store: Store<[Int], AppAction>
 
     var body: some View {
         List {
-            ForEach(self.store.value.favoritePrimes) { prime in
+            ForEach(self.store.value) { prime in
                 Text("\(prime)")
             }
             .onDelete { indexSet in
@@ -215,7 +217,7 @@ struct FavoritePrimes: View {
 }
 
 struct IsPrimeModalView: View {
-    @ObservedObject var store: Store<AppState, AppAction>
+    @ObservedObject var store: Store<PrimeModalState, AppAction>
 
     var body: some View {
         VStack {

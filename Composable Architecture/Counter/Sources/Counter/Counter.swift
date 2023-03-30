@@ -16,11 +16,55 @@ public func counterReducer(state: inout Int, action: CounterAction) {
     }
 }
 
-public typealias CounterViewState = (count: Int, favoritePrimes: [Int])
+public let counterViewReducer: (inout CounterViewState, CounterViewAction) -> Void = combine(
+  pullback(counterReducer, value: \CounterViewState.count, action: \.counter),
+  pullback(primeModalReducer, value: \.primeModalState, action: \.primeModal)
+)
+
+public struct CounterViewState {
+    public var count: Int
+    public var favoritePrimes: [Int]
+
+    public init(count: Int, favoritePrimes: [Int]) {
+        self.count = count
+        self.favoritePrimes = favoritePrimes
+    }
+
+    var primeModalState: PrimeModalState {
+        get {
+            return PrimeModalState(count: count, favoritePrimes: favoritePrimes)
+        }
+        set {
+            self = CounterViewState(count: newValue.count, favoritePrimes: newValue.favoritePrimes)
+        }
+    }
+}
 
 public enum CounterViewAction {
     case counter(CounterAction)
     case primeModal(PrimeModalAction)
+
+    var counter: CounterAction? {
+        get {
+            guard case let .counter(value) = self else { return nil }
+            return value
+        }
+        set {
+            guard case .counter = self, let newValue = newValue else { return }
+            self = .counter(newValue)
+        }
+    }
+    
+    var primeModal: PrimeModalAction? {
+        get {
+            guard case let .primeModal(value) = self else { return nil }
+            return value
+        }
+        set {
+            guard case .primeModal = self, let newValue = newValue else { return }
+            self = .primeModal(newValue)
+        }
+    }
 }
 
 public struct CounterView: View {
@@ -28,14 +72,14 @@ public struct CounterView: View {
     @State var isPrimeModalShown: Bool = false
     @State var alertNthPrime: Int?
     @State var isNthPrimeButtonDisabled = false
-
+    
     public init(store: Store<CounterViewState, CounterViewAction>, isPrimeModalShown: Bool = false, alertNthPrime: Int? = nil, isNthPrimeButtonDisabled: Bool = false) {
         self.store = store
         self.isPrimeModalShown = isPrimeModalShown
         self.alertNthPrime = alertNthPrime
         self.isNthPrimeButtonDisabled = isNthPrimeButtonDisabled
     }
-
+    
     public var body: some View {
         VStack {
             HStack {
@@ -70,7 +114,7 @@ public struct CounterView: View {
             )
         }
     }
-
+    
     func nthPrimeButtonAction() {
         self.isNthPrimeButtonDisabled = true
         nthPrime(self.store.value.count) { prime in

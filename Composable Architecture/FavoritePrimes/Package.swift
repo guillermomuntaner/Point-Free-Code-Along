@@ -14,6 +14,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
+        .package(path: "../ComposableArchitecture")
         // .package(url: /* package url */, from: "1.0.0"),
     ],
     targets: [

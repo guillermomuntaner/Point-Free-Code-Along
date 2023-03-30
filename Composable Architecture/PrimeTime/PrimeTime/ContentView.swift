@@ -8,7 +8,6 @@ import SwiftUI
 import ComposableArchitecture
 import FavoritePrimes
 import Counter
-import PrimeModal
 
 // MARK: - Model
 
@@ -35,10 +34,11 @@ struct AppState {
     var loggedInUser: User?
 }
 
+
 extension AppState {
-    var primeModel: PrimeModalState {
+    var counterView: CounterViewState {
         get {
-            PrimeModalState(
+            CounterViewState(
                 count: self.count,
                 favoritePrimes: self.favoritePrimes
             )
@@ -49,29 +49,30 @@ extension AppState {
         }
     }
 }
+
 enum AppAction {
-    case counter(CounterAction)
-    case primeModal(PrimeModalAction)
+    case counterView(CounterViewAction)
     case favoritePrimes(FavoritePrimesAction)
-
-    var counter: CounterAction? {
-        get {
-            guard case let .counter(value) = self else { return nil }
-            return value
-        }
-    }
-
-    var primeModal: PrimeModalAction? {
-        get {
-            guard case let .primeModal(value) = self else { return nil }
-            return value
-        }
-    }
 
     var favoritePrimes: FavoritePrimesAction? {
         get {
             guard case let .favoritePrimes(value) = self else { return nil }
             return value
+        }
+        set {
+            guard case .favoritePrimes = self, let newValue = newValue else { return }
+            self = .favoritePrimes(newValue)
+        }
+    }
+
+    var counterView: CounterViewAction? {
+        get {
+            guard case let .counterView(value) = self else { return nil }
+            return value
+        }
+        set {
+            guard case .counterView = self, let newValue = newValue else { return }
+            self = .counterView(newValue)
         }
     }
 }
@@ -81,13 +82,13 @@ func activityFeed(
 ) -> (inout AppState, AppAction) -> Void {
     return { state, action in
         switch action {
-        case .counter:
+        case .counterView(.counter):
             break
 
-        case .primeModal(.saveFavoritePrimeTapped):
+        case .counterView(.primeModal(.saveFavoritePrimeTapped)):
             state.activityFeed.append(.init(timestamp: Date(), type: .addedFavoritePrime(state.count)))
 
-        case .primeModal(.removeFavoritePrimeTapped):
+        case .counterView(.primeModal(.removeFavoritePrimeTapped)):
             state.activityFeed.append(.init(timestamp: Date(), type: .removedFavoritePrime(state.count)))
 
         case let .favoritePrimes(.removeFavoritePrimes(indexSet)):
@@ -103,8 +104,7 @@ func activityFeed(
 let appReducer: (inout AppState, AppAction) -> Void = logging(
     activityFeed(
         combine(
-            pullback(counterReducer, value: \.count, action: \.counter),
-            pullback(primeModalReducer, value: \.primeModel, action: \.primeModal),
+            pullback(counterViewReducer, value: \.counterView, action: \.counterView),
             pullback(favoritePrimesReducer, value: \.favoritePrimes, action: \.favoritePrimes)
         )
     )
@@ -120,13 +120,8 @@ struct ContentView: View {
             List {
                 NavigationLink(
                     destination: CounterView(store: self.store.view(
-                        value: { ($0.count, $0.favoritePrimes) },
-                        action: {
-                            switch $0 {
-                            case let .counter(counterAction): return .counter(counterAction)
-                            case let .primeModal(primeModalAction): return .primeModal(primeModalAction)
-                            }
-                        }
+                        value: { $0.counterView },
+                        action: { .counterView($0) }
                     ))
                 ) {
                     Text("Counter demo")
